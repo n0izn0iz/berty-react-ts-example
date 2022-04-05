@@ -1,3 +1,14 @@
-import React, { useState } from "react"
+import { selectAllConversations } from "@berty/messenger-reducer"
+import React from "react"
+import { useAppSelector } from "../store"
 
-// TODO
+export const ConversationsList: React.FC<{ setActiveConv: (convPK: string) => void }> = ({ setActiveConv }) => {
+    const convs = useAppSelector(selectAllConversations)
+    return <>
+        {convs.map((conv) => {
+            return <button key={conv.publicKey} onClick={() => setActiveConv(conv.publicKey || "")}>
+                {conv.displayName}
+            </button>
+        })}
+    </>
+}

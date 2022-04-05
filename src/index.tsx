@@ -1,9 +1,12 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
+import protobuf from 'protobufjs'
 
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+protobuf.util.toJSONOptions = { longs: String, enums: Number, json: true }
 
 const container = document.getElementById('root');
 

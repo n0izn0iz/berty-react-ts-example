@@ -3,12 +3,15 @@ import { Provider } from 'react-redux'
 
 import './App.css';
 import { client } from "./client"
-import { JoinGroup } from './components/JoinGroup';
+import { InputWithTrigger } from './components/InputWithTrigger';
 import { store } from "./store"
 import { useState } from 'react';
+import { ConversationsList } from "./components/ConversationsList";
+import { ConversationView } from "./components/ConversationView";
 
 function App() {
   const [started, setStarted] = useState(false)
+  const [activeConv, setActiveConv] = useState("")
   return (
     <Provider store={store}>
       <div className="App">
@@ -32,8 +35,15 @@ function App() {
         }}>
           Start event stream
         </button>}
-        {started && <div>
-          <JoinGroup />
+        {started && <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", padding: "calc(min(1vh, 1vw))", boxSizing: "border-box", backgroundColor: "lightgrey" }}>
+            <InputWithTrigger triggerName="Join" onTrigger={async (link) => {
+              client.conversationJoin({ link })
+            }} />
+            <div style={{ paddingTop: "calc(min(1vh, 1vw))" }} />
+            <ConversationsList setActiveConv={setActiveConv} />
+          </div>
+          <ConversationView publicKey={activeConv} />
         </div>}
       </div>
     </Provider>
